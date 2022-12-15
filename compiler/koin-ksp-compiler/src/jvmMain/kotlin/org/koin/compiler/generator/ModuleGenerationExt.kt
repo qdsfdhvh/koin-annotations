@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import com.google.devtools.ksp.symbol.ClassKind
+import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSDeclaration
 import org.koin.compiler.generator.*
 import org.koin.compiler.metadata.KoinMetaData
@@ -127,5 +129,6 @@ private fun List<KSDeclaration>.generateModuleIncludes(): String {
 private fun KSDeclaration.generateModuleInclude(): String {
     val packageName: String = containingFile?.packageName?.asString() ?: ""
     val className = simpleName.asString()
-    return "$packageName.$className().module"
+    val isObject = this is KSClassDeclaration && classKind == ClassKind.OBJECT
+    return "$packageName.$className${if (isObject) "" else "()"}.module"
 }
