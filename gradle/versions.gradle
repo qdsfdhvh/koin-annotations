@@ -2,9 +2,9 @@ ext {
     // Koin
     koin_version = '3.2.2'
     // TODO pass it to true to make release
-    is_snaptshot = true
+    is_snaptshot = false
 
-    koin_ksp_version = "1.0.3"
+    koin_ksp_version = "1.0.3.11"
     // KSP
     ksp_version = "1.6.21-1.0.6"
     // Kotlin

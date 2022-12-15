@@ -25,7 +25,8 @@ allprojects {
         google()
     }
 
-    group = 'io.insert-koin'
+    // group = 'io.insert-koin'
+    group = 'io.github.qdsfdhvh'
     version = "$koin_ksp_version"
 
     // Dokka

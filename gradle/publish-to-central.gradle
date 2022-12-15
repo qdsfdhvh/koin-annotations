@@ -2,15 +2,15 @@ apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
 def isReleaseBuild() {
-    return !is_snaptshot
+    return true
 }
 
 def getRepositoryUsername() {
-    return findProperty('SONATYPE_NEXUS_USERNAME') ?: System.getenv('SONATYPE_NEXUS_USERNAME') ?: ""
+    return findProperty('mavenCentralUsername') ?: System.getenv('mavenCentralUsername') ?: ""
 }
 
 def getRepositoryPassword() {
-    return findProperty('SONATYPE_NEXUS_PASSWORD') ?: System.getenv('SONATYPE_NEXUS_PASSWORD') ?: ""
+    return findProperty('mavenCentralPassword') ?: System.getenv('mavenCentralPassword') ?: ""
 }
 
 if (!project.tasks.findByName('sourcesJar')) {
@@ -37,14 +37,14 @@ def OSSRepo = "s01.oss.sonatype.org"
 afterEvaluate {
     publishing {
         repositories {
-            maven {
-                name "snapshot"
-                url = "https://$OSSRepo/content/repositories/snapshots"
-                credentials {
-                    username = getRepositoryUsername()
-                    password = getRepositoryPassword()
-                }
-            }
+            // maven {
+            //     name "snapshot"
+            //     url = "https://$OSSRepo/content/repositories/snapshots"
+            //     credentials {
+            //         username = getRepositoryUsername()
+            //         password = getRepositoryPassword()
+            //     }
+            // }
             maven {
                 name "staging"
                 url = "https://$OSSRepo/service/local/staging/deploy/maven2"
@@ -80,7 +80,8 @@ afterEvaluate {
 
                     description "KOIN - Kotlin simple Dependency Injection Framework"
                     name project.name
-                    url "https://insert-koin.io/"
+                    // url "https://insert-koin.io/"
+                    url "https://github.com/qdsfdhvh/koin-annotations"
                     licenses {
                         license {
                             name "The Apache Software License, Version 2.0"
@@ -88,14 +89,19 @@ afterEvaluate {
                         }
                     }
                     scm {
-                        url "https://github.com/InsertKoinIO/koin"
-                        connection "scm:git:git://github.com/InsertKoinIO/koin.git"
-                        developerConnection "scm:git:git://github.com/InsertKoinIO/koin.git"
+                        // url "https://github.com/InsertKoinIO/koin"
+                        // connection "scm:git:git://github.com/InsertKoinIO/koin.git"
+                        // developerConnection "scm:git:git://github.com/InsertKoinIO/koin.git"
+                        url "https://github.com/qdsfdhvh/koin-annotations"
+                        connection "scm:git:git://github.com/qdsfdhvh/koin-annotation.git"
+                        developerConnection "scm:git:git://github.com/qdsfdhvh/koin-annotation.git"
                     }
                     developers {
                         developer {
-                            id "arnaudgiuliani"
-                            name "Arnaud Giuliani"
+                            // id "arnaudgiuliani"
+                            // name "Arnaud Giuliani"
+                            id "seiko"
+                            name "Seiko Des"
                         }
                     }
                 }
