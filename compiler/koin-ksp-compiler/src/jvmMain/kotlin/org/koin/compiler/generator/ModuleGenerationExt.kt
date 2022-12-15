@@ -127,7 +127,7 @@ private fun List<KSDeclaration>.generateModuleIncludes(): String {
 }
 
 private fun KSDeclaration.generateModuleInclude(): String {
-    val packageName: String = containingFile?.packageName?.asString() ?: ""
+    val packageName = packageName.asString()
     val className = simpleName.asString()
     val isObject = this is KSClassDeclaration && classKind == ClassKind.OBJECT
     return "$packageName.$className${if (isObject) "" else "()"}.module"
