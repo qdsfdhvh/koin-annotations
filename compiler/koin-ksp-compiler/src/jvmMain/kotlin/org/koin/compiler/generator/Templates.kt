@@ -34,8 +34,8 @@ val DEFAULT_MODULE_FOOTER = """
         }
     """.trimIndent()
 
-fun moduleHeader() = """
-    package org.koin.ksp.generated
+fun moduleHeader(packageName: String = "org.koin.ksp.generated") = """
+    package $packageName
     
     import org.koin.dsl.*
     

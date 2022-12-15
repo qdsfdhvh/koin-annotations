@@ -58,7 +58,10 @@ class KoinGenerator(
                     codeGenerator.getDefaultFile().generateFieldDefaultModule(module.definitions)
                 }
                 KoinMetaData.ModuleType.CLASS -> {
-                    val moduleFile = codeGenerator.getFile(fileName = module.generateModuleFileName())
+                    val moduleFile = codeGenerator.getFile(
+                        packageName = module.packageName,
+                        fileName = module.generateModuleFileName(),
+                    )
                     generateClassModule(moduleFile, module)
                 }
             }

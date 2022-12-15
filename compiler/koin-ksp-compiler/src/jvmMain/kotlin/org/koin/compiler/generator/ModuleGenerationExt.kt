@@ -37,8 +37,9 @@ fun OutputStream.generateFieldDefaultModule(definitions: List<KoinMetaData.Defin
 
 fun generateClassModule(classFile: OutputStream, module: KoinMetaData.Module) {
     // classFile.appendText(moduleHeader(module.name)) -> previously generating header #JvmName
-    classFile.appendText(moduleHeader())
+    classFile.appendText(moduleHeader(module.packageName))
     classFile.appendText(module.definitions.generateImports())
+    module.includes?.let { classFile.appendText(it.generateModuleImports()) }
 
     val generatedField = module.generateModuleField(classFile)
 
@@ -48,17 +49,33 @@ fun generateClassModule(classFile: OutputStream, module: KoinMetaData.Module) {
         if (includes.isNotEmpty()) { generateIncludes(includes, classFile) }
     }
 
-    if (module.definitions.any { it is KoinMetaData.Definition.FunctionDefinition }) {
+    if (!module.isObject && module.definitions.any { it is KoinMetaData.Definition.FunctionDefinition }) {
         classFile.appendText("${NEW_LINE}val moduleInstance = $modulePath()")
     }
 
     generateDefinitions(module, classFile)
 
-    classFile.appendText("\n}")
-    classFile.appendText("\nval $modulePath.module : org.koin.core.module.Module get() = $generatedField")
+    classFile.appendText("\n}\n")
+    generateModule(module, classFile, generatedField)
 
     classFile.flush()
     classFile.close()
+}
+
+private fun generateModule(
+    module: KoinMetaData.Module,
+    classFile: OutputStream,
+    generatedField: String,
+) {
+    if (module.isExpect) {
+        classFile.appendText("""
+            actual ${if (module.isObject) "object" else "class"} ${module.name} {
+                actual val module: org.koin.core.module.Module get() = $generatedField
+            }
+        """.trimIndent())
+    } else {
+        classFile.appendText("val ${module.name}.module : org.koin.core.module.Module get() = $generatedField")
+    }
 }
 
 private fun generateDefinitions(
@@ -120,6 +137,16 @@ fun OutputStream.generateDefaultModuleFooter() {
 private fun List<KoinMetaData.Definition>.generateImports(): String {
     return mapNotNull { definition -> definition.keyword.import?.let { "import $it" } }
         .joinToString(separator = "\n", postfix = "\n")
+}
+
+private fun List<KSDeclaration>.generateModuleImports(): String {
+    return mapNotNull {
+        if (it.isExpect) null else {
+            val packageName = it.packageName.asString()
+            val className = it.simpleName.asString()
+            "import $packageName.${if (it.isExpect) className else "module"}"
+        }
+    }.joinToString(separator = "\n", postfix = "\n")
 }
 
 private fun List<KSDeclaration>.generateModuleIncludes(): String {

@@ -36,7 +36,9 @@ class ModuleScanner(
             name = name,
             type = KoinMetaData.ModuleType.CLASS,
             componentScan = componentScan,
-            includes = includes
+            includes = includes,
+            isObject = declaration.classKind == ClassKind.OBJECT,
+            isExpect = declaration.isExpect,
         )
 
         val annotatedFunctions = declaration.getAllFunctions()
