@@ -6,9 +6,9 @@ ext {
 
     koin_ksp_version = "1.0.3"
     // KSP
-    ksp_version = "1.6.21-1.0.6"
+    ksp_version = "1.7.22-1.0.8"
     // Kotlin
-    kotlin_version = '1.6.21'
+    kotlin_version = '1.7.22'
 
 
     // coroutines_version = "1.5.2-native-mt"
