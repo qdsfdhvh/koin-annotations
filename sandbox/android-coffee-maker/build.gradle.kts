@@ -36,7 +36,7 @@ android {
         val variantName = name
         sourceSets {
             getByName("main") {
-                java.srcDir(File("build/generated/ksp/$variantName/kotlin"))
+                kotlin.srcDir(File("build/generated/ksp/$variantName/kotlin"))
             }
         }
     }
@@ -46,8 +46,10 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation("io.insert-koin:koin-android:$koinVersion")
 
-    implementation("io.insert-koin:koin-annotations:$koinKspVersion")
-    ksp("io.insert-koin:koin-ksp-compiler:$koinKspVersion")
+    // implementation("io.insert-koin:koin-annotations:$koinKspVersion")
+    // ksp("io.insert-koin:koin-ksp-compiler:$koinKspVersion")
+    implementation("io.insert-koin:koin-annotations")
+    ksp("io.insert-koin:koin-ksp-compiler")
 
     implementation(project(":coffee-maker"))
 

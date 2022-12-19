@@ -22,7 +22,9 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib"))
     implementation("io.insert-koin:koin-core:$koinVersion")
-    implementation("io.insert-koin:koin-annotations:$koinKspVersion")
-    ksp("io.insert-koin:koin-ksp-compiler:$koinKspVersion")
+    // implementation("io.insert-koin:koin-annotations:$koinKspVersion")
+    // ksp("io.insert-koin:koin-ksp-compiler:$koinKspVersion")
+    implementation("io.insert-koin:koin-annotations")
+    ksp("io.insert-koin:koin-ksp-compiler")
     implementation(project(":coffee-maker-module"))
 }
